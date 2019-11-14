@@ -9,13 +9,14 @@ import Foundation
 
 /// This represent Contents.json of imageset
 struct ImageContents: Codable {
-    let info: Info
     let images: [Image]
+    let info: Info
     
     struct Image: Codable {
-        var idiom: String
-        var filename: String
-        var scale: String
+        let idiom: String
+        let filename: String
+        let appearances: [AppearanceSet]?
+        let scale: String
     }
     
 }
