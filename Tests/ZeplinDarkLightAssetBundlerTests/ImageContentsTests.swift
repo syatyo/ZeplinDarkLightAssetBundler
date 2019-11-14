@@ -10,7 +10,7 @@ import XCTest
 
 final class ImageContentsTests: XCTestCase {
     
-    func testExample() {
+    func testDecode() {
         let testString = """
         {
           "images" : [
@@ -55,9 +55,106 @@ final class ImageContentsTests: XCTestCase {
         XCTAssertEqual(colorContents.images[2].scale, "3x")
 
     }
+    
+    func testEncode() {
+        let imageContents = ImageContents(images: [
+            .init(idiom: "universal",
+                  filename: "cat9302341_TP_V4.jpg",
+                  appearances: nil,
+                  scale: "1x"),
+            .init(idiom: "universal",
+                  filename: "cat9302341_TP_V4-1.jpg",
+                  appearances: [.init(appearance: "luminosity", value: "dark")],
+                  scale: "1x"),
+            .init(idiom: "universal",
+                  filename: "cat9302341_TP_V4-4.jpg",
+                  appearances: nil,
+                  scale: "2x"),
+            .init(idiom: "universal",
+                  filename: "cat9302341_TP_V4-2.jpg",
+                  appearances: [.init(appearance: "luminosity", value: "dark")],
+                  scale: "2x"),
+            .init(idiom: "universal",
+                  filename: "cat9302341_TP_V4-5.jpg",
+                  appearances: nil,
+                  scale: "3x"),
+            .init(idiom: "universal",
+                  filename: "cat9302341_TP_V4-3.jpg",
+                  appearances: [.init(appearance: "luminosity", value: "dark")],
+                  scale: "3x"),
+        ], info: .init(version: 1, author: "xcode"))
+        
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+        
+        let data = try! encoder.encode(imageContents)
+        let string = String(data: data, encoding: .utf8)!
+        
+        let testString = """
+        {
+          "images" : [
+            {
+              "idiom" : "universal",
+              "filename" : "cat9302341_TP_V4.jpg",
+              "scale" : "1x"
+            },
+            {
+              "idiom" : "universal",
+              "filename" : "cat9302341_TP_V4-1.jpg",
+              "appearances" : [
+                {
+                  "appearance" : "luminosity",
+                  "value" : "dark"
+                }
+              ],
+              "scale" : "1x"
+            },
+            {
+              "idiom" : "universal",
+              "filename" : "cat9302341_TP_V4-4.jpg",
+              "scale" : "2x"
+            },
+            {
+              "idiom" : "universal",
+              "filename" : "cat9302341_TP_V4-2.jpg",
+              "appearances" : [
+                {
+                  "appearance" : "luminosity",
+                  "value" : "dark"
+                }
+              ],
+              "scale" : "2x"
+            },
+            {
+              "idiom" : "universal",
+              "filename" : "cat9302341_TP_V4-5.jpg",
+              "scale" : "3x"
+            },
+            {
+              "idiom" : "universal",
+              "filename" : "cat9302341_TP_V4-3.jpg",
+              "appearances" : [
+                {
+                  "appearance" : "luminosity",
+                  "value" : "dark"
+                }
+              ],
+              "scale" : "3x"
+            }
+          ],
+          "info" : {
+            "version" : 1,
+            "author" : "xcode"
+          }
+        }
+        """
+        
+        XCTAssertEqual(string, testString)
+    }
 
     static var allTests = [
-        ("testExample", testExample),
+        ("testDecode", testDecode),
+        ("testEncode", testEncode)
     ]
 }
 
