@@ -14,6 +14,7 @@ struct ColorContents: Codable {
     
     struct ColorSet: Codable {
         let idiom: String
+        let appearances: [AppearanceSet]?
         let color: Color
         
         /// Color model used in xcasset

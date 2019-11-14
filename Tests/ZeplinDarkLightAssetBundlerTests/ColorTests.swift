@@ -3,7 +3,7 @@ import XCTest
 
 final class ColorTests: XCTestCase {
     
-    func testParse() {
+    func testDecode() {
         let testString = """
         {
           "info" : {
@@ -39,8 +39,77 @@ final class ColorTests: XCTestCase {
         XCTAssertEqual(firstColorSet.color.components.blue, "0.212")
         XCTAssertEqual(firstColorSet.color.components.green, "0.162")
     }
-
+    
+    func testEncode() {
+        let lightColor = ColorContents.ColorSet(idiom: "universal",
+                                                appearances: nil,
+                                                color: .init(colorSpace: "srgb",
+                                                             components: .init(red: "1.000",
+                                                                               alpha: "1.000",
+                                                                               blue: "1.000",
+                                                                               green: "1.000")))
+        let darkColor = ColorContents.ColorSet.init(idiom: "universal",
+                                                    appearances: [.init(appearance: "luminosity", value: "dark")],
+                                                    color: .init(colorSpace: "srgb",
+                                                                 components: .init(red: "0.213",
+                                                                                   alpha: "1.000",
+                                                                                   blue: "1.000",
+                                                                                   green: "0.417")))
+        
+        let contents = ColorContents(info: .init(version: 1, author: "xcode"),
+                                     colors: [lightColor, darkColor])
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+        let data = try! encoder.encode(contents)
+        let string = String(data: data, encoding: .utf8)!
+        
+        let testString = """
+        {
+          "info" : {
+            "version" : 1,
+            "author" : "xcode"
+          },
+          "colors" : [
+            {
+              "idiom" : "universal",
+              "color" : {
+                "color-space" : "srgb",
+                "components" : {
+                  "red" : "1.000",
+                  "alpha" : "1.000",
+                  "blue" : "1.000",
+                  "green" : "1.000"
+                }
+              }
+            },
+            {
+              "idiom" : "universal",
+              "appearances" : [
+                {
+                  "appearance" : "luminosity",
+                  "value" : "dark"
+                }
+              ],
+              "color" : {
+                "color-space" : "srgb",
+                "components" : {
+                  "red" : "0.213",
+                  "alpha" : "1.000",
+                  "blue" : "1.000",
+                  "green" : "0.417"
+                }
+              }
+            }
+          ]
+        }
+        """
+        
+        XCTAssertEqual(string, testString)
+    }
+    
+    
     static var allTests = [
-        ("testExample", testParse),
+        ("testDecode", testDecode),
+        ("testEncode", testEncode)
     ]
 }
