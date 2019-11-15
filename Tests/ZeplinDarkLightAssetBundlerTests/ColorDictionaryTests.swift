@@ -32,6 +32,7 @@ final class ColorDictionaryTests: XCTestCase {
         let lightColorDictionary = ColorSetDirectory(colorsetURL: url)
         XCTAssertEqual(lightColorDictionary.colorMode, .light)
         XCTAssertEqual(lightColorDictionary.name, "light_red.colorset")
+        XCTAssertEqual(lightColorDictionary.removedPrefixName, "red.colorset")
     }
     
     func testDarkColorDictionary() {
@@ -39,6 +40,7 @@ final class ColorDictionaryTests: XCTestCase {
         let lightColorDictionary = ColorSetDirectory(colorsetURL: url)
         XCTAssertEqual(lightColorDictionary.colorMode, .dark)
         XCTAssertEqual(lightColorDictionary.name, "dark_red.colorset")
+        XCTAssertEqual(lightColorDictionary.removedPrefixName, "red.colorset")
     }
 
 

@@ -28,6 +28,7 @@ final class ImageSetDictionaryTests: XCTestCase {
         let lightImageDictionary = ImageSetDirectory(imagesetURL: url)
         XCTAssertEqual(lightImageDictionary.colorMode, .light)
         XCTAssertEqual(lightImageDictionary.name, "light_cat.imageset")
+        XCTAssertEqual(lightImageDictionary.removedPrefixName, "cat.imageset")
     }
     
     func testDarkImageDictionary() {
@@ -35,8 +36,8 @@ final class ImageSetDictionaryTests: XCTestCase {
         let darkImageDictionary = ImageSetDirectory(imagesetURL: url)
         XCTAssertEqual(darkImageDictionary.colorMode, .dark)
         XCTAssertEqual(darkImageDictionary.name, "dark_cat.imageset")
+        XCTAssertEqual(darkImageDictionary.removedPrefixName, "cat.imageset")
     }
-
 
     static var allTests = [
         ("testImageSetDictionary", testImageSetDictionary),

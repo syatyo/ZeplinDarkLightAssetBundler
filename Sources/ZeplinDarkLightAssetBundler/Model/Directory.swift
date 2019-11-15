@@ -16,13 +16,18 @@ extension ColorMode: Equatable { }
 
 struct ColorSetDirectory {
     let name: String
+    let removedPrefixName: String
     let colorMode: ColorMode?
     let contents: ColorContents
     
     init(colorsetURL: URL) {
         self.name = colorsetURL.lastPathComponent
         self.colorMode = ColorMode(rawValue: self.name.components(separatedBy: "_")[0])
-
+        if let separatorIndex = self.name.firstIndex(of: "_") {
+            self.removedPrefixName = String(self.name[self.name.index(after: separatorIndex)..<self.name.endIndex])
+        } else {
+            self.removedPrefixName = self.name
+        }
         let contentsOfDirectory = try! FileManager.default.contentsOfDirectory(at: colorsetURL,
                                                                                includingPropertiesForKeys: nil,
                                                                                options: [])
@@ -32,10 +37,19 @@ struct ColorSetDirectory {
         let decoder = JSONDecoder()
         self.contents = try! decoder.decode(ColorContents.self, from: data)
     }
+    
+    init(name: String, colorMode: ColorMode?, contents: ColorContents) {
+        self.name = name
+        self.colorMode = colorMode
+        self.contents = contents
+        self.removedPrefixName = name
+    }
+    
 }
 
 struct ImageSetDirectory {
     let name: String
+    let removedPrefixName: String
     let colorMode: ColorMode?
     let contents: ImageContents
     let fileURLs: [URL]
@@ -43,6 +57,11 @@ struct ImageSetDirectory {
     init(imagesetURL: URL) {
         self.name = imagesetURL.lastPathComponent
         self.colorMode = ColorMode(rawValue: self.name.components(separatedBy: "_")[0])
+        if let separatorIndex = self.name.firstIndex(of: "_") {
+            self.removedPrefixName = String(self.name[self.name.index(after: separatorIndex)..<self.name.endIndex])
+        } else {
+            self.removedPrefixName = self.name
+        }
 
         let contentsOfDirectory = try! FileManager.default.contentsOfDirectory(at: imagesetURL,
                                                                                includingPropertiesForKeys: nil,
@@ -56,4 +75,13 @@ struct ImageSetDirectory {
         self.fileURLs = contentsOfDirectory.filter { $0.pathExtension != "json" }
     }
 
+    
+    init(name: String, colorMode: ColorMode?, contents: ImageContents, fileURLs: [URL]) {
+        self.name = name
+        self.colorMode = colorMode
+        self.contents = contents
+        self.fileURLs = fileURLs
+        self.removedPrefixName = name
+    }
+     
 }
