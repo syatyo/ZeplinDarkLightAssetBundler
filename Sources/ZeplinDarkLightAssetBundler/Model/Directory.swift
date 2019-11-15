@@ -7,10 +7,22 @@
 
 import Foundation
 
+enum ColorMode: String {
+    case light
+    case dark
+}
+
+extension ColorMode: Equatable { }
+
 struct ColorSetDirectory {
+    let name: String
+    let colorMode: ColorMode?
     let contents: ColorContents
     
     init(colorsetURL: URL) {
+        self.name = colorsetURL.lastPathComponent
+        self.colorMode = ColorMode(rawValue: self.name.components(separatedBy: "_")[0])
+
         let contentsOfDirectory = try! FileManager.default.contentsOfDirectory(at: colorsetURL,
                                                                                includingPropertiesForKeys: nil,
                                                                                options: [])
@@ -23,10 +35,15 @@ struct ColorSetDirectory {
 }
 
 struct ImageSetDirectory {
+    let name: String
+    let colorMode: ColorMode?
     let contents: ImageContents
     let fileURLs: [URL]
     
     init(imagesetURL: URL) {
+        self.name = imagesetURL.lastPathComponent
+        self.colorMode = ColorMode(rawValue: self.name.components(separatedBy: "_")[0])
+
         let contentsOfDirectory = try! FileManager.default.contentsOfDirectory(at: imagesetURL,
                                                                                includingPropertiesForKeys: nil,
                                                                                options: [])

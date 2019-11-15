@@ -22,9 +22,26 @@ final class ImageSetDictionaryTests: XCTestCase {
         XCTAssertEqual(colorDictionary.contents.images[1].appearances?[0].appearance, "luminosity")
         XCTAssertEqual(colorDictionary.contents.images[1].appearances?[0].value, "dark")
     }
+    
+    func testLightImageDictionary() {
+        let url = TestUtils.testAssetDirectoryURL.appendingPathComponent("light_cat.imageset")
+        let lightImageDictionary = ImageSetDirectory(imagesetURL: url)
+        XCTAssertEqual(lightImageDictionary.colorMode, .light)
+        XCTAssertEqual(lightImageDictionary.name, "light_cat.imageset")
+    }
+    
+    func testDarkImageDictionary() {
+        let url = TestUtils.testAssetDirectoryURL.appendingPathComponent("dark_cat.imageset")
+        let darkImageDictionary = ImageSetDirectory(imagesetURL: url)
+        XCTAssertEqual(darkImageDictionary.colorMode, .dark)
+        XCTAssertEqual(darkImageDictionary.name, "dark_cat.imageset")
+    }
+
 
     static var allTests = [
         ("testImageSetDictionary", testImageSetDictionary),
+        ("testLightImageDictionary", testLightImageDictionary),
+        ("testDarkImageDictionary", testDarkImageDictionary),
     ]
 }
 
