@@ -22,3 +22,21 @@ struct ColorSetDirectory {
     }
 }
 
+struct ImageSetDirectory {
+    let contents: ImageContents
+    let fileURLs: [URL]
+    
+    init(imagesetURL: URL) {
+        let contentsOfDirectory = try! FileManager.default.contentsOfDirectory(at: imagesetURL,
+                                                                               includingPropertiesForKeys: nil,
+                                                                               options: [])
+        let contentsURL = contentsOfDirectory.first { $0.pathExtension == "json" }!
+        let data = try! Data(contentsOf: contentsURL)
+        
+        let decoder = JSONDecoder()
+        self.contents = try! decoder.decode(ImageContents.self, from: data)
+
+        self.fileURLs = contentsOfDirectory.filter { $0.pathExtension != "json" }
+    }
+
+}
