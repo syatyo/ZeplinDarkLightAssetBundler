@@ -8,23 +8,28 @@
 import Foundation
 
 /// Directory including xcode resources
-struct XCAssets {
+struct XCAssets: Directory {
+    
+    typealias Contents = [XCAssetsItem]
+    
+    var name: String
     
     /// The items of xcassets
-    let items: [XCAssetsItem]
+    let contents: [XCAssetsItem]
     
     init(url: URL) throws {
+        self.name = url.lastPathComponent
         let contentURLs = try FileManager.default.contentsOfDirectory(at: url,
                                                                       includingPropertiesForKeys: nil,
                                                                       options: [])
         
-        var items: [XCAssetsItem] = []
-        items.append(contentsOf: try contentURLs
+        var contents: [XCAssetsItem] = []
+        contents.append(contentsOf: try contentURLs
             .filter { $0.pathExtension == "colorset" }
             .compactMap { try XCAssetsItem.colorset(Colorset(url: $0)) }
         )
         
-        items.append(contentsOf: try contentURLs
+        contents.append(contentsOf: try contentURLs
             .filter { $0.pathExtension == "imageset" }
             .compactMap { try XCAssetsItem.imageset(Imageset(url: $0)) }
         )
@@ -32,10 +37,10 @@ struct XCAssets {
         if let contentsJsonURL: URL = contentURLs.first(where: { $0.lastPathComponent == "Contents.json" }) {
             let data = try Data(contentsOf: contentsJsonURL)
             let rootContents = try JSONDecoder().decode(RootContents.self, from: data)
-            items.append(XCAssetsItem.rootContentsJSON(rootContents))
+            contents.append(XCAssetsItem.rootContentsJSON(rootContents))
         }
         
-        self.items = items
+        self.contents = contents
     }
     
 }
