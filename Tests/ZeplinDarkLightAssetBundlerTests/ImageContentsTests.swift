@@ -64,7 +64,7 @@ final class ImageContentsTests: XCTestCase {
                   scale: "1x"),
             .init(idiom: "universal",
                   filename: "cat9302341_TP_V4-1.jpg",
-                  appearances: [.init(appearance: "luminosity", value: .dark)],
+                  appearances: [Appearance(appearance: "luminosity", value: .dark)!],
                   scale: "1x"),
             .init(idiom: "universal",
                   filename: "cat9302341_TP_V4-4.jpg",
@@ -72,7 +72,7 @@ final class ImageContentsTests: XCTestCase {
                   scale: "2x"),
             .init(idiom: "universal",
                   filename: "cat9302341_TP_V4-2.jpg",
-                  appearances: [.init(appearance: "luminosity", value: .dark)],
+                  appearances: [Appearance(appearance: "luminosity", value: .dark)!],
                   scale: "2x"),
             .init(idiom: "universal",
                   filename: "cat9302341_TP_V4-5.jpg",
@@ -80,7 +80,7 @@ final class ImageContentsTests: XCTestCase {
                   scale: "3x"),
             .init(idiom: "universal",
                   filename: "cat9302341_TP_V4-3.jpg",
-                  appearances: [.init(appearance: "luminosity", value: .dark)],
+                  appearances: [Appearance(appearance: "luminosity", value: .dark)!],
                   scale: "3x"),
         ])
         

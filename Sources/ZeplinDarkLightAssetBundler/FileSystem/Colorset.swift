@@ -13,10 +13,10 @@ struct Colorset: Directory, ColorModeIdentifiable {
     typealias Contents = ColorContents
     
     /// The name of color set directory
-    let name: String
+    var name: String
     
     /// The contents of color set
-    let contents: ColorContents
+    var contents: ColorContents
     
     init(url: URL) throws {
         self.name = url.lastPathComponent
@@ -28,11 +28,22 @@ struct Colorset: Directory, ColorModeIdentifiable {
         
         let decoder = JSONDecoder()
         self.contents = try decoder.decode(ColorContents.self, from: data)
+        
+        self.contents.setColorMode(colorMode)
+
     }
     
     init(name: String, contents: ColorContents) {
         self.name = name
         self.contents = contents
+    }
+    
+}
+
+extension Colorset: Mergeable {
+    
+    mutating func merge(from: Colorset) {
+        contents.merge(from: from.contents)
     }
     
 }

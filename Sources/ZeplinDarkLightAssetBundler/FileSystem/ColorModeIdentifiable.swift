@@ -11,5 +11,6 @@ import Foundation
 protocol ColorModeIdentifiable {
     
     /// The colorMode
-    var colorMode: ColorMode { get }
+    var colorMode: ColorMode? { get }
+    
 }

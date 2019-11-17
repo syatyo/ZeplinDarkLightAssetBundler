@@ -14,6 +14,30 @@ struct ColorContents: Codable {
     let info: Info
     
     /// The colors of contents
-    let colors: [Color]
+    var colors: [Color]
+    
+    mutating func setColorMode(_ colorMode: ColorMode?) {
+        let appearances: [Appearance]? = {
+            guard let appearance = Appearance(value: colorMode) else {
+                return nil
+            }
+            return [appearance]
+        }()
+        
+        colors = colors.map {
+            Color(idiom: $0.idiom,
+                  appearances: appearances,
+                  value: $0.value)
+        }
+        
+    }
+
+}
+
+extension ColorContents: Mergeable {
+    
+    mutating func merge(from: ColorContents) {
+        colors.append(contentsOf: from.colors)
+    }
     
 }
