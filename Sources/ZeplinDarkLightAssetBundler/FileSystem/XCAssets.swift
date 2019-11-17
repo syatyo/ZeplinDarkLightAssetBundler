@@ -12,12 +12,17 @@ struct XCAssets: Directory {
     
     typealias Contents = [XCAssetsItem]
     
+    /// The url of xcassets
+    var url: URL
+    
+    /// The name of xcassets
     var name: String
     
     /// The items of xcassets
     let contents: [XCAssetsItem]
     
     init(url: URL) throws {
+        self.url = url
         self.name = url.lastPathComponent
         let contentURLs = try FileManager.default.contentsOfDirectory(at: url,
                                                                       includingPropertiesForKeys: nil,
