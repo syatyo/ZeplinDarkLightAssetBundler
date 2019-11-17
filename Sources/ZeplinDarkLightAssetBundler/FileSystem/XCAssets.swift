@@ -7,22 +7,28 @@
 
 import Foundation
 
+/// Directory including xcode resources
 struct XCAssets {
-    let colorsetDirectories: [ColorSetDirectory]
-    let imagesetDirectories: [ImageSetDirectory]
+    
+    /// The items of xcassets
+    let items: [XCAssetsItem]
     
     init(url: URL) {
         let contentURLs = try! FileManager.default.contentsOfDirectory(at: url,
                                                                        includingPropertiesForKeys: nil,
                                                                        options: [])
         
-        self.colorsetDirectories = contentURLs
+        var items: [XCAssetsItem] = []
+        items.append(contentsOf: contentURLs
             .filter { $0.pathExtension == "colorset" }
-            .compactMap { ColorSetDirectory(colorsetURL: $0) }
+            .compactMap { XCAssetsItem.colorset(Colorset(colorsetURL: $0)) }
+        )
         
-        self.imagesetDirectories = contentURLs
+        items.append(contentsOf: contentURLs
             .filter { $0.pathExtension == "imageset" }
-            .compactMap { ImageSetDirectory(imagesetURL: $0) }
+            .compactMap { XCAssetsItem.imageset(Imageset(imagesetURL: $0)) }
+        )
+        self.items = items
     }
     
 }
