@@ -21,12 +21,12 @@ struct XCAssets {
         var items: [XCAssetsItem] = []
         items.append(contentsOf: contentURLs
             .filter { $0.pathExtension == "colorset" }
-            .compactMap { XCAssetsItem.colorset(Colorset(colorsetURL: $0)) }
+            .compactMap { XCAssetsItem.colorset(Colorset(url: $0)) }
         )
         
         items.append(contentsOf: contentURLs
             .filter { $0.pathExtension == "imageset" }
-            .compactMap { XCAssetsItem.imageset(Imageset(imagesetURL: $0)) }
+            .compactMap { XCAssetsItem.imageset(Imageset(url: $0)) }
         )
         self.items = items
     }

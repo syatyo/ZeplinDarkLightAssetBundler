@@ -7,21 +7,13 @@
 
 import Foundation
 
-struct Colorset: Directory {
+struct Colorset: Directory, ColorModeIdentifiable {
     let name: String
-    let removedPrefixName: String
-    let colorMode: ColorMode?
     let contents: ColorContents
     
-    init(colorsetURL: URL) {
-        self.name = colorsetURL.lastPathComponent
-        self.colorMode = ColorMode(rawValue: self.name.components(separatedBy: "_")[0])
-        if let separatorIndex = self.name.firstIndex(of: "_") {
-            self.removedPrefixName = String(self.name[self.name.index(after: separatorIndex)..<self.name.endIndex])
-        } else {
-            self.removedPrefixName = self.name
-        }
-        let contentsOfDirectory = try! FileManager.default.contentsOfDirectory(at: colorsetURL,
+    init(url: URL) {
+        self.name = url.lastPathComponent
+        let contentsOfDirectory = try! FileManager.default.contentsOfDirectory(at: url,
                                                                                includingPropertiesForKeys: nil,
                                                                                options: [])
         let contentsURL = contentsOfDirectory.first!
@@ -31,11 +23,9 @@ struct Colorset: Directory {
         self.contents = try! decoder.decode(ColorContents.self, from: data)
     }
     
-    init(name: String, colorMode: ColorMode?, contents: ColorContents) {
+    init(name: String, contents: ColorContents) {
         self.name = name
-        self.colorMode = colorMode
         self.contents = contents
-        self.removedPrefixName = name
     }
     
 }

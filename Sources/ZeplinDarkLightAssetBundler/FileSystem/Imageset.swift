@@ -7,23 +7,15 @@
 
 import Foundation
 
-struct Imageset: Directory {
+struct Imageset: Directory, ColorModeIdentifiable {
     let name: String
-    let removedPrefixName: String
-    let colorMode: ColorMode?
     let contents: ImageContents
-    let fileURLs: [URL]
+    let sourceImageURLs: [URL]
     
-    init(imagesetURL: URL) {
-        self.name = imagesetURL.lastPathComponent
-        self.colorMode = ColorMode(rawValue: self.name.components(separatedBy: "_")[0])
-        if let separatorIndex = self.name.firstIndex(of: "_") {
-            self.removedPrefixName = String(self.name[self.name.index(after: separatorIndex)..<self.name.endIndex])
-        } else {
-            self.removedPrefixName = self.name
-        }
+    init(url: URL) {
+        self.name = url.lastPathComponent
 
-        let contentsOfDirectory = try! FileManager.default.contentsOfDirectory(at: imagesetURL,
+        let contentsOfDirectory = try! FileManager.default.contentsOfDirectory(at: url,
                                                                                includingPropertiesForKeys: nil,
                                                                                options: [])
         let contentsURL = contentsOfDirectory.first { $0.pathExtension == "json" }!
@@ -32,16 +24,14 @@ struct Imageset: Directory {
         let decoder = JSONDecoder()
         self.contents = try! decoder.decode(ImageContents.self, from: data)
 
-        self.fileURLs = contentsOfDirectory.filter { $0.pathExtension != "json" }
+        self.sourceImageURLs = contentsOfDirectory.filter { $0.pathExtension != "json" }
     }
 
     
-    init(name: String, colorMode: ColorMode?, contents: ImageContents, fileURLs: [URL]) {
+    init(name: String, contents: ImageContents, fileURLs: [URL]) {
         self.name = name
-        self.colorMode = colorMode
         self.contents = contents
-        self.fileURLs = fileURLs
-        self.removedPrefixName = name
+        self.sourceImageURLs = fileURLs
     }
      
 }

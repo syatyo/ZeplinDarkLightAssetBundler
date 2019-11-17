@@ -12,7 +12,7 @@ final class ColorDictionaryTests: XCTestCase {
     
     func testColorDictionry() {
         let url = TestUtils.testAssetDirectoryURL.appendingPathComponent("Color.colorset")
-        let colorDictionary = Colorset(colorsetURL: url)
+        let colorDictionary = Colorset(url: url)
         
         XCTAssertEqual(colorDictionary.contents.info.version, 1)
         XCTAssertEqual(colorDictionary.contents.info.author, "xcode")
@@ -29,18 +29,18 @@ final class ColorDictionaryTests: XCTestCase {
     
     func testLightColorDictionary() {
         let url = TestUtils.testAssetDirectoryURL.appendingPathComponent("light_red.colorset")
-        let lightColorDictionary = Colorset(colorsetURL: url)
+        let lightColorDictionary = Colorset(url: url)
         XCTAssertEqual(lightColorDictionary.colorMode, .light)
         XCTAssertEqual(lightColorDictionary.name, "light_red.colorset")
-        XCTAssertEqual(lightColorDictionary.removedPrefixName, "red.colorset")
+        XCTAssertEqual(lightColorDictionary.removedColorModePrefixName, "red.colorset")
     }
     
     func testDarkColorDictionary() {
         let url = TestUtils.testAssetDirectoryURL.appendingPathComponent("dark_red.colorset")
-        let lightColorDictionary = Colorset(colorsetURL: url)
+        let lightColorDictionary = Colorset(url: url)
         XCTAssertEqual(lightColorDictionary.colorMode, .dark)
         XCTAssertEqual(lightColorDictionary.name, "dark_red.colorset")
-        XCTAssertEqual(lightColorDictionary.removedPrefixName, "red.colorset")
+        XCTAssertEqual(lightColorDictionary.removedColorModePrefixName, "red.colorset")
     }
 
 
