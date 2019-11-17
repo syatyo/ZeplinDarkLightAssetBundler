@@ -12,7 +12,7 @@ final class ImageSetDictionaryTests: XCTestCase {
     
     func testImageSetDictionary() {
         let url = TestUtils.testAssetDirectoryURL.appendingPathComponent("Image.imageset")
-        let colorDictionary = ImageSetDirectory(imagesetURL: url)
+        let colorDictionary = try! Imageset(url: url)
         XCTAssertEqual(colorDictionary.contents.info.version, 1)
         XCTAssertEqual(colorDictionary.contents.info.author, "xcode")
         XCTAssertEqual(colorDictionary.contents.images[0].idiom, "universal")
@@ -20,23 +20,23 @@ final class ImageSetDictionaryTests: XCTestCase {
         XCTAssertEqual(colorDictionary.contents.images[0].scale, "1x")
         XCTAssertNil(colorDictionary.contents.images[0].appearances)
         XCTAssertEqual(colorDictionary.contents.images[1].appearances?[0].appearance, "luminosity")
-        XCTAssertEqual(colorDictionary.contents.images[1].appearances?[0].value, "dark")
+        XCTAssertEqual(colorDictionary.contents.images[1].appearances?[0].value, .dark)
     }
     
     func testLightImageDictionary() {
         let url = TestUtils.testAssetDirectoryURL.appendingPathComponent("light_cat.imageset")
-        let lightImageDictionary = ImageSetDirectory(imagesetURL: url)
+        let lightImageDictionary = try! Imageset(url: url)
         XCTAssertEqual(lightImageDictionary.colorMode, .light)
         XCTAssertEqual(lightImageDictionary.name, "light_cat.imageset")
-        XCTAssertEqual(lightImageDictionary.removedPrefixName, "cat.imageset")
+        XCTAssertEqual(lightImageDictionary.removedColorModePrefixName, "cat.imageset")
     }
     
     func testDarkImageDictionary() {
         let url = TestUtils.testAssetDirectoryURL.appendingPathComponent("dark_cat.imageset")
-        let darkImageDictionary = ImageSetDirectory(imagesetURL: url)
+        let darkImageDictionary = try! Imageset(url: url)
         XCTAssertEqual(darkImageDictionary.colorMode, .dark)
         XCTAssertEqual(darkImageDictionary.name, "dark_cat.imageset")
-        XCTAssertEqual(darkImageDictionary.removedPrefixName, "cat.imageset")
+        XCTAssertEqual(darkImageDictionary.removedColorModePrefixName, "cat.imageset")
     }
 
     static var allTests = [
