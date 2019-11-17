@@ -7,13 +7,6 @@
 
 import Foundation
 
-enum ColorMode: String {
-    case light
-    case dark
-}
-
-extension ColorMode: Equatable { }
-
 struct ColorSetDirectory {
     let name: String
     let removedPrefixName: String

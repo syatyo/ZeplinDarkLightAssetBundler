@@ -20,7 +20,7 @@ final class ImageSetDictionaryTests: XCTestCase {
         XCTAssertEqual(colorDictionary.contents.images[0].scale, "1x")
         XCTAssertNil(colorDictionary.contents.images[0].appearances)
         XCTAssertEqual(colorDictionary.contents.images[1].appearances?[0].appearance, "luminosity")
-        XCTAssertEqual(colorDictionary.contents.images[1].appearances?[0].value, "dark")
+        XCTAssertEqual(colorDictionary.contents.images[1].appearances?[0].value, .dark)
     }
     
     func testLightImageDictionary() {

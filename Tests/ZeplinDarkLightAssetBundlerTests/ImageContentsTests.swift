@@ -57,14 +57,14 @@ final class ImageContentsTests: XCTestCase {
     }
     
     func testEncode() {
-        let imageContents = ImageContents(images: [
+        let imageContents = ImageContents(info: .init(version: 1, author: "xcode"), images: [
             .init(idiom: "universal",
                   filename: "cat9302341_TP_V4.jpg",
                   appearances: nil,
                   scale: "1x"),
             .init(idiom: "universal",
                   filename: "cat9302341_TP_V4-1.jpg",
-                  appearances: [.init(appearance: "luminosity", value: "dark")],
+                  appearances: [.init(appearance: "luminosity", value: .dark)],
                   scale: "1x"),
             .init(idiom: "universal",
                   filename: "cat9302341_TP_V4-4.jpg",
@@ -72,7 +72,7 @@ final class ImageContentsTests: XCTestCase {
                   scale: "2x"),
             .init(idiom: "universal",
                   filename: "cat9302341_TP_V4-2.jpg",
-                  appearances: [.init(appearance: "luminosity", value: "dark")],
+                  appearances: [.init(appearance: "luminosity", value: .dark)],
                   scale: "2x"),
             .init(idiom: "universal",
                   filename: "cat9302341_TP_V4-5.jpg",
@@ -80,9 +80,9 @@ final class ImageContentsTests: XCTestCase {
                   scale: "3x"),
             .init(idiom: "universal",
                   filename: "cat9302341_TP_V4-3.jpg",
-                  appearances: [.init(appearance: "luminosity", value: "dark")],
+                  appearances: [.init(appearance: "luminosity", value: .dark)],
                   scale: "3x"),
-        ], info: .init(version: 1, author: "xcode"))
+        ])
         
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted

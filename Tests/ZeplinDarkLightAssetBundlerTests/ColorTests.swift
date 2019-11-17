@@ -33,28 +33,28 @@ final class ColorTests: XCTestCase {
         
         let firstColorSet = colorContents.colors[0]
         XCTAssertEqual(firstColorSet.idiom, "universal")
-        XCTAssertEqual(firstColorSet.color.colorSpace, "srgb")
-        XCTAssertEqual(firstColorSet.color.components.red, "1.000")
-        XCTAssertEqual(firstColorSet.color.components.alpha, "1.000")
-        XCTAssertEqual(firstColorSet.color.components.blue, "0.212")
-        XCTAssertEqual(firstColorSet.color.components.green, "0.162")
+        XCTAssertEqual(firstColorSet.value.colorSpace, "srgb")
+        XCTAssertEqual(firstColorSet.value.components.red, "1.000")
+        XCTAssertEqual(firstColorSet.value.components.alpha, "1.000")
+        XCTAssertEqual(firstColorSet.value.components.blue, "0.212")
+        XCTAssertEqual(firstColorSet.value.components.green, "0.162")
     }
     
     func testEncode() {
-        let lightColor = ColorContents.ColorSet(idiom: "universal",
-                                                appearances: nil,
-                                                color: .init(colorSpace: "srgb",
-                                                             components: .init(red: "1.000",
-                                                                               alpha: "1.000",
-                                                                               blue: "1.000",
-                                                                               green: "1.000")))
-        let darkColor = ColorContents.ColorSet.init(idiom: "universal",
-                                                    appearances: [.init(appearance: "luminosity", value: "dark")],
-                                                    color: .init(colorSpace: "srgb",
-                                                                 components: .init(red: "0.213",
-                                                                                   alpha: "1.000",
-                                                                                   blue: "1.000",
-                                                                                   green: "0.417")))
+        let lightColor = Color(idiom: "universal",
+                               appearances: nil,
+                               value: .init(colorSpace: "srgb",
+                                            components: .init(red: "1.000",
+                                                              alpha: "1.000",
+                                                              blue: "1.000",
+                                                              green: "1.000")))
+        let darkColor = Color(idiom: "universal",
+                              appearances: [.init(appearance: "luminosity", value: .dark)],
+                              value: .init(colorSpace: "srgb",
+                                           components: .init(red: "0.213",
+                                                             alpha: "1.000",
+                                                             blue: "1.000",
+                                                             green: "0.417")))
         
         let contents = ColorContents(info: .init(version: 1, author: "xcode"),
                                      colors: [lightColor, darkColor])
