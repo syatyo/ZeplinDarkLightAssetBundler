@@ -46,3 +46,45 @@ struct Color: Codable {
 
 
 }
+
+extension Color: Comparable {
+    
+    static func == (lhs: Color, rhs: Color) -> Bool {
+        return priority(of: lhs.appearances?.first) == priority(of: rhs.appearances?.first)
+    }
+    
+    static func < (lhs: Color, rhs: Color) -> Bool {
+        
+        func priority(of appearance: Appearance?) -> Int {
+            guard let value = appearance?.value else {
+                return 0 // top priprity
+            }
+            
+            switch value {
+            case .light:
+                return 1
+                
+            case .dark:
+                return 2
+            }
+        }
+        
+        return priority(of: lhs.appearances?.first) < priority(of: rhs.appearances?.first)
+    }
+    
+    private static func priority(of appearance: Appearance?) -> Int {
+        guard let value = appearance?.value else {
+            return 0 // top priprity
+        }
+        
+        switch value {
+        case .light:
+            return 1
+            
+        case .dark:
+            return 2
+        }
+    }
+
+        
+}

@@ -13,12 +13,13 @@ protocol Directory {
     associatedtype Contents
     
     /// The name of directory
-    var name: String { get }
+    var name: String { get set }
     
     /// The contents of directory
     var contents: Contents { get }
     
     init(url: URL) throws
+    
 }
 
 extension Directory where Self: ColorModeIdentifiable {
@@ -36,8 +37,8 @@ extension Directory where Self: ColorModeIdentifiable {
     }
     
     /// The color mode of directory
-    var colorMode: ColorMode {
-        return ColorMode(rawValue: name.components(separatedBy: "_")[0])
+    var colorMode: ColorMode? {
+        return ColorMode(rawValue: name.components(separatedBy: "_")[0], allowsLightMode: false)
     }
     
 }

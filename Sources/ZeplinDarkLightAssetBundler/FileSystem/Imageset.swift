@@ -13,13 +13,13 @@ struct Imageset: Directory, ColorModeIdentifiable {
     typealias Content = ImageContents
     
     /// The name of imageset directory
-    let name: String
+    var name: String
     
     /// The contents of imageset
-    let contents: ImageContents
+    var contents: ImageContents
     
     /// The image urls in imageset directory
-    let sourceImageURLs: [URL]
+    var sourceImageURLs: [URL]
     
     init(url: URL) throws {
         self.name = url.lastPathComponent
@@ -34,8 +34,9 @@ struct Imageset: Directory, ColorModeIdentifiable {
         self.contents = try decoder.decode(ImageContents.self, from: data)
         
         self.sourceImageURLs = contentsOfDirectory.filter { $0.pathExtension != "json" }
+        
+        self.contents.setColorMode(colorMode)
     }
-
     
     init(name: String, contents: ImageContents, fileURLs: [URL]) {
         self.name = name
@@ -43,4 +44,13 @@ struct Imageset: Directory, ColorModeIdentifiable {
         self.sourceImageURLs = fileURLs
     }
          
+}
+
+extension Imageset: Mergeable {
+    
+    mutating func merge(from: Imageset) {
+        contents.merge(from: from.contents)
+        sourceImageURLs.append(contentsOf: from.sourceImageURLs)
+    }
+    
 }

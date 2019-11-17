@@ -49,7 +49,7 @@ final class ColorTests: XCTestCase {
                                                               blue: "1.000",
                                                               green: "1.000")))
         let darkColor = Color(idiom: "universal",
-                              appearances: [.init(appearance: "luminosity", value: .dark)],
+                              appearances: [(Appearance(appearance: "luminosity", value: .dark)!)],
                               value: .init(colorSpace: "srgb",
                                            components: .init(red: "0.213",
                                                              alpha: "1.000",

@@ -22,3 +22,12 @@ struct Image: Codable {
     /// The scale of image. e.g. 1x, 2x, 3x
     let scale: String
 }
+
+extension Image: Comparable {
+    
+    public static func < (lhs: Image, rhs: Image) -> Bool {
+        return lhs.scale < rhs.scale
+    }
+    
+    
+}
