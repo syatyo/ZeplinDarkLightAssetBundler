@@ -12,7 +12,7 @@ final class ImageSetDictionaryTests: XCTestCase {
     
     func testImageSetDictionary() {
         let url = TestUtils.testAssetDirectoryURL.appendingPathComponent("Image.imageset")
-        let colorDictionary = Imageset(url: url)
+        let colorDictionary = try! Imageset(url: url)
         XCTAssertEqual(colorDictionary.contents.info.version, 1)
         XCTAssertEqual(colorDictionary.contents.info.author, "xcode")
         XCTAssertEqual(colorDictionary.contents.images[0].idiom, "universal")
@@ -25,7 +25,7 @@ final class ImageSetDictionaryTests: XCTestCase {
     
     func testLightImageDictionary() {
         let url = TestUtils.testAssetDirectoryURL.appendingPathComponent("light_cat.imageset")
-        let lightImageDictionary = Imageset(url: url)
+        let lightImageDictionary = try! Imageset(url: url)
         XCTAssertEqual(lightImageDictionary.colorMode, .light)
         XCTAssertEqual(lightImageDictionary.name, "light_cat.imageset")
         XCTAssertEqual(lightImageDictionary.removedColorModePrefixName, "cat.imageset")
@@ -33,7 +33,7 @@ final class ImageSetDictionaryTests: XCTestCase {
     
     func testDarkImageDictionary() {
         let url = TestUtils.testAssetDirectoryURL.appendingPathComponent("dark_cat.imageset")
-        let darkImageDictionary = Imageset(url: url)
+        let darkImageDictionary = try! Imageset(url: url)
         XCTAssertEqual(darkImageDictionary.colorMode, .dark)
         XCTAssertEqual(darkImageDictionary.name, "dark_cat.imageset")
         XCTAssertEqual(darkImageDictionary.removedColorModePrefixName, "cat.imageset")

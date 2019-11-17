@@ -7,23 +7,32 @@
 
 import Foundation
 
+/// Direcotry of imageset
 struct Imageset: Directory, ColorModeIdentifiable {
+    
+    typealias Content = ImageContents
+    
+    /// The name of imageset directory
     let name: String
+    
+    /// The contents of imageset
     let contents: ImageContents
+    
+    /// The image urls in imageset directory
     let sourceImageURLs: [URL]
     
-    init(url: URL) {
+    init(url: URL) throws {
         self.name = url.lastPathComponent
-
-        let contentsOfDirectory = try! FileManager.default.contentsOfDirectory(at: url,
-                                                                               includingPropertiesForKeys: nil,
-                                                                               options: [])
+        
+        let contentsOfDirectory = try FileManager.default.contentsOfDirectory(at: url,
+                                                                              includingPropertiesForKeys: nil,
+                                                                              options: [])
         let contentsURL = contentsOfDirectory.first { $0.pathExtension == "json" }!
-        let data = try! Data(contentsOf: contentsURL)
+        let data = try Data(contentsOf: contentsURL)
         
         let decoder = JSONDecoder()
-        self.contents = try! decoder.decode(ImageContents.self, from: data)
-
+        self.contents = try decoder.decode(ImageContents.self, from: data)
+        
         self.sourceImageURLs = contentsOfDirectory.filter { $0.pathExtension != "json" }
     }
 
@@ -33,5 +42,5 @@ struct Imageset: Directory, ColorModeIdentifiable {
         self.contents = contents
         self.sourceImageURLs = fileURLs
     }
-     
+         
 }

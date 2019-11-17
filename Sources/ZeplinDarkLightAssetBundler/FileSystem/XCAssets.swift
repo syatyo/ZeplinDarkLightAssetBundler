@@ -13,21 +13,28 @@ struct XCAssets {
     /// The items of xcassets
     let items: [XCAssetsItem]
     
-    init(url: URL) {
-        let contentURLs = try! FileManager.default.contentsOfDirectory(at: url,
-                                                                       includingPropertiesForKeys: nil,
-                                                                       options: [])
+    init(url: URL) throws {
+        let contentURLs = try FileManager.default.contentsOfDirectory(at: url,
+                                                                      includingPropertiesForKeys: nil,
+                                                                      options: [])
         
         var items: [XCAssetsItem] = []
-        items.append(contentsOf: contentURLs
+        items.append(contentsOf: try contentURLs
             .filter { $0.pathExtension == "colorset" }
-            .compactMap { XCAssetsItem.colorset(Colorset(url: $0)) }
+            .compactMap { try XCAssetsItem.colorset(Colorset(url: $0)) }
         )
         
-        items.append(contentsOf: contentURLs
+        items.append(contentsOf: try contentURLs
             .filter { $0.pathExtension == "imageset" }
-            .compactMap { XCAssetsItem.imageset(Imageset(url: $0)) }
+            .compactMap { try XCAssetsItem.imageset(Imageset(url: $0)) }
         )
+        
+        if let contentsJsonURL: URL = contentURLs.first(where: { $0.lastPathComponent == "Contents.json" }) {
+            let data = try Data(contentsOf: contentsJsonURL)
+            let rootContents = try JSONDecoder().decode(RootContents.self, from: data)
+            items.append(XCAssetsItem.rootContentsJSON(rootContents))
+        }
+        
         self.items = items
     }
     

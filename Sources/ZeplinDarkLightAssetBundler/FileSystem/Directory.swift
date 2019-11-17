@@ -10,10 +10,15 @@ import Foundation
 /// Representation of directory
 protocol Directory {
     
+    associatedtype Contents
+    
     /// The name of directory
     var name: String { get }
     
-    init(url: URL)
+    /// The contents of directory
+    var contents: Contents { get }
+    
+    init(url: URL) throws
 }
 
 extension Directory where Self: ColorModeIdentifiable {

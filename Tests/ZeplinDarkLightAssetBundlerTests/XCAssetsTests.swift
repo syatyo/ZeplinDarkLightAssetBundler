@@ -12,8 +12,8 @@ final class XCAssetsTests: XCTestCase {
     
     func testAssets() {
         let url = TestUtils.testAssetDirectoryURL
-        let xcassets = XCAssets(url: url)
-        XCTAssertEqual(xcassets.items.count, 6)
+        let xcassets = try! XCAssets(url: url)
+        XCTAssertEqual(xcassets.items.count, 7)
         XCTAssertEqual(xcassets.items.filter { $0 == .colorset(.empty()) }.count, 3)
         XCTAssertEqual(xcassets.items.filter { $0 == .imageset(.empty()) }.count, 3)
     }
