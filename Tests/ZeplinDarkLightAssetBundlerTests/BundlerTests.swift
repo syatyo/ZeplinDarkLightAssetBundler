@@ -13,7 +13,7 @@ final class BundlerTests: XCTestCase {
     func testImagesetBundle() {
         
         let assets = try! XCAssets(url: TestUtils.testAssetDirectoryURL)
-        let imagesets: [Imageset] = assets.items.compactMap {
+        let imagesets: [Imageset] = assets.contents.compactMap {
             if case .imageset(let value) = $0 {
                 return value
             } else {
@@ -23,7 +23,7 @@ final class BundlerTests: XCTestCase {
         
         XCTContext.runActivity(named: "Should not bundled") { _ in
             XCTAssertEqual(imagesets.count, 2)
-            XCTAssertEqual(assets.items.count, 5)
+            XCTAssertEqual(assets.contents.count, 5)
         }
         
         let bundler = Bundler(source: imagesets)
@@ -114,7 +114,7 @@ final class BundlerTests: XCTestCase {
     
     func testColorBundle() {
         let assets = try! XCAssets(url: TestUtils.testAssetDirectoryURL)
-        let colorsets: [Colorset] = assets.items.compactMap {
+        let colorsets: [Colorset] = assets.contents.compactMap {
             if case .colorset(let value) = $0 {
                 return value
             } else {
@@ -124,7 +124,7 @@ final class BundlerTests: XCTestCase {
         
         XCTContext.runActivity(named: "Should not bundled") { _ in
             XCTAssertEqual(colorsets.count, 2)
-            XCTAssertEqual(assets.items.count, 5)
+            XCTAssertEqual(assets.contents.count, 5)
         }
         
         let bundler = Bundler(source: colorsets)
