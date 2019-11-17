@@ -19,6 +19,8 @@ struct Appearance: Codable, Hashable {
     let value: ColorMode?
     
     init?(appearance: String, value: ColorMode?) {
+        
+        // Following Contents.json spec, appearance should be nil when color mode is nil,
         guard value != nil else {
             return nil
         }
@@ -28,6 +30,8 @@ struct Appearance: Codable, Hashable {
     }
     
     init?(value: ColorMode?) {
+        
+        // Following Contents.json spec, appearance should be nil when color mode is nil,
         guard value != nil else {
             return nil
         }
