@@ -13,3 +13,38 @@ enum XCAssetsItem {
     case imageset(Imageset)
     case rootContentsJSON(RootContents)
 }
+
+extension Collection where Self.Element == XCAssetsItem {
+    
+    var colorset: [Colorset] {
+        return compactMap {
+            if case .colorset(let value) = $0 {
+                return value
+            } else {
+                return nil
+            }
+        }
+    }
+    
+    var imageset: [Imageset] {
+        return compactMap {
+            if case .imageset(let value) = $0 {
+                return value
+            } else {
+                return nil
+            }
+        }
+    }
+    
+    var rootContentsJSON: RootContents? {
+        return compactMap {
+            if case .rootContentsJSON(let contents) = $0 {
+                return contents
+            } else {
+                return nil
+            }
+        }.first
+    }
+
+    
+}

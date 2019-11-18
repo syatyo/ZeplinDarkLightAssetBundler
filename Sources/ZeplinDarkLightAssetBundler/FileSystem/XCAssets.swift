@@ -8,8 +8,8 @@
 import Foundation
 
 /// Directory including xcode resources
-struct XCAssets: Directory {
-    
+struct XCAssets: Directory, BundlerProtocol {
+    typealias Source = XCAssets
     typealias Contents = [XCAssetsItem]
     
     /// The url of xcassets
@@ -19,7 +19,7 @@ struct XCAssets: Directory {
     var name: String
     
     /// The items of xcassets
-    let contents: [XCAssetsItem]
+    var contents: [XCAssetsItem]
     
     init(url: URL) throws {
         self.url = url
@@ -46,6 +46,27 @@ struct XCAssets: Directory {
         }
         
         self.contents = contents
+    }
+    
+    func bundled() -> XCAssets {
+        let bundledContents: [XCAssetsItem] = {
+            let colorBundler = Bundler(source: contents.colorset)
+            let bundledColorsets = colorBundler.bundled().map { XCAssetsItem.colorset($0) }
+            
+            let imageBundler = Bundler(source: contents.imageset)
+            let bundledImagesets = imageBundler.bundled().map { XCAssetsItem.imageset($0) }
+
+            if let rootJSON = contents.rootContentsJSON {
+                return bundledColorsets + bundledImagesets + [XCAssetsItem.rootContentsJSON(rootJSON)]
+            } else {
+                return bundledColorsets + bundledImagesets
+            }
+
+        }()
+        
+        var bundledAssets = self
+        bundledAssets.contents = bundledContents
+        return bundledAssets
     }
     
 }
