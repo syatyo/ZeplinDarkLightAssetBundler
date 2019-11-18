@@ -9,5 +9,5 @@ import Foundation
 
 protocol Writable {
     
-    func write(to path: String)
+    func write(to url: URL)
 }
