@@ -7,7 +7,7 @@
 
 import Foundation
 import XCTest
-@testable import ZeplinDarkLightAssetBundler
+@testable import ZeplinDarkLightAssetBundlerCore
 
 final class TestPathTests: XCTestCase {
     

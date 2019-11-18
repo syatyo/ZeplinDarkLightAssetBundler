@@ -1,5 +1,5 @@
 import XCTest
-@testable import ZeplinDarkLightAssetBundler
+@testable import ZeplinDarkLightAssetBundlerCore
 
 final class ZeplinDarkLightAssetBundlerTests: XCTestCase {
     func testExample() {
