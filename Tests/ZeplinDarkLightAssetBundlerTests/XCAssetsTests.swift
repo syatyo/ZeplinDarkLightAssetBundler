@@ -47,7 +47,7 @@ extension XCAssetsItem: Equatable {
 extension Colorset {
     
     static func empty() -> Colorset {
-        return Colorset(name: "", contents: .init(info: .init(version: 0, author: ""), colors: []))
+        return Colorset(targetURL: TestUtils.testRootDirectoryURL, name: "", contents: .init(info: .init(version: 0, author: ""), colors: []))
     }
     
 }
@@ -55,7 +55,7 @@ extension Colorset {
 extension Imageset {
     
     static func empty() -> Imageset {
-        return Imageset(name: "", contents: .init(info: .init(version: 0, author: ""), images: []), fileURLs: [])
+        return Imageset(targetURL: TestUtils.testRootDirectoryURL, name: "", contents: .init(info: .init(version: 0, author: ""), images: []), fileURLs: [])
     }
     
 }

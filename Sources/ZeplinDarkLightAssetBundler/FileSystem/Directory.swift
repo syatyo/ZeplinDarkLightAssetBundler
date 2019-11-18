@@ -12,9 +12,12 @@ protocol Directory {
     
     associatedtype Contents
     
+    /// The url of directory
+    var url: URL { get set }
+
     /// The name of directory
     var name: String { get set }
-    
+        
     /// The contents of directory
     var contents: Contents { get }
     

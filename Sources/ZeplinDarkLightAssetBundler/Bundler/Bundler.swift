@@ -7,14 +7,18 @@
 
 import Foundation
 
+typealias Bundlable = Directory & ColorModeIdentifiable & Mergeable
+
 /// Bundler bundle source
-struct Bundler<T> where T: Directory, T: ColorModeIdentifiable, T: Mergeable {
+struct Bundler<T>: BundlerProtocol where T: Bundlable {
+    
+    typealias Source = [T]
     
     /// The source of bundle
-    let source: [T]
+    let source: Source
     
     /// return bundled value
-    func bundled() -> [T] {
+    func bundled() -> Source {
         let dictionary = Dictionary(grouping: source) { $0.removedColorModePrefixName }
         return dictionary.compactMap({ keyWithValues -> T in
             // Any source should exist

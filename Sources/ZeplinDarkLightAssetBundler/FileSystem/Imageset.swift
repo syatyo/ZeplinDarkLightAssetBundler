@@ -12,6 +12,9 @@ struct Imageset: Directory, ColorModeIdentifiable {
     
     typealias Content = ImageContents
     
+    /// The url of imageset directory
+    var url: URL
+    
     /// The name of imageset directory
     var name: String
     
@@ -22,8 +25,8 @@ struct Imageset: Directory, ColorModeIdentifiable {
     var sourceImageURLs: [URL]
     
     init(url: URL) throws {
+        self.url = url
         self.name = url.lastPathComponent
-        
         let contentsOfDirectory = try FileManager.default.contentsOfDirectory(at: url,
                                                                               includingPropertiesForKeys: nil,
                                                                               options: [])
@@ -38,7 +41,8 @@ struct Imageset: Directory, ColorModeIdentifiable {
         self.contents.setColorMode(colorMode)
     }
     
-    init(name: String, contents: ImageContents, fileURLs: [URL]) {
+    init(targetURL: URL, name: String, contents: ImageContents, fileURLs: [URL]) {
+        self.url = targetURL
         self.name = name
         self.contents = contents
         self.sourceImageURLs = fileURLs
