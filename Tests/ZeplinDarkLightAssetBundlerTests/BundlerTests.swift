@@ -27,7 +27,7 @@ final class BundlerTests: XCTestCase {
         }
         
         let bundler = Bundler(source: imagesets)
-        let result = bundler.bundled()
+        let result = try! bundler.bundled()
 
         XCTContext.runActivity(named: "Imageset shoud be bundled") { _ in
             XCTAssertEqual(result.count, 1)
@@ -128,7 +128,7 @@ final class BundlerTests: XCTestCase {
         }
         
         let bundler = Bundler(source: colorsets)
-        let result = bundler.bundled()
+        let result = try! bundler.bundled()
 
         XCTContext.runActivity(named: "Colorset shoud be bundled") { _ in
             XCTAssertEqual(result.count, 1)

@@ -8,7 +8,7 @@
 import Foundation
 
 protocol BundlerProtocol {
-    associatedtype Source
+    associatedtype BundleResult
     
-    func bundled() -> Source
+    func bundled() -> BundleResult
 }
