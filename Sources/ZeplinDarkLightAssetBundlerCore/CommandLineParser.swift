@@ -35,16 +35,25 @@ public struct CommandLineParser {
         
         let result = try parser.parse(arguments)
         
-        guard let inputPath = result.get(inputKeyword) else {
-            print("Can not get input path from :\(result.description)")
-            throw CommandLineParserError.invalidInputPath(result.description)
-        }
+        let inputPath: String = {
+            if let path = result.get(inputKeyword) {
+                return path
+            }
+            
+            let cwdPath = FileManager.default.currentDirectoryPath
+            let defaultAssetsName = "Assets.xcassets"
+            let defaultAssetsURL = URL(fileURLWithPath: cwdPath + "/" + defaultAssetsName)
+            
+            return defaultAssetsURL.relativePath
+        }()
         
-        guard let outputPath = result.get(outputKeyword) else {
-            print("Can not get output path from :\(result.description)")
-            throw CommandLineParserError.invalidOutputPath(result.description)
-        }
-        
+        let outputPath: String = {
+            if let path = result.get(outputKeyword) {
+                return path
+            }
+            return inputPath
+        }()
+                
         let inputURL = URL(fileURLWithPath: inputPath)
         let outputURL = URL(fileURLWithPath: outputPath)
 
