@@ -194,9 +194,55 @@ final class BundlerTests: XCTestCase {
 
     }
     
+    func testLuckAssets() {
+        let url = TestUtils.testMainDirectoryURL.appendingPathComponent("TestLuckAssets.xcassets")
+        let assets = try! XCAssets(url: url)
+        
+        XCTContext.runActivity(named: "Darkのアセットがない画像がある") { _ in
+            let imagesets: [Imageset] = assets.contents.compactMap {
+                if case .imageset(let value) = $0 {
+                    return value
+                } else {
+                    return nil
+                }
+            }
+            
+            let imageBundler = Bundler(source: imagesets)
+            let imageBundleResults = imageBundler.bundled()
+            
+            XCTAssertEqual(imageBundleResults.filter { (try? $0.get()) != nil }.count, 0)
+            XCTAssertNotEqual(imageBundleResults.filter { $0.error != nil }.count, 0)
+
+            let error = imageBundleResults.first { $0.error != nil }?.error as? Bundler<Imageset>.BundlerError
+            XCTAssertEqual(error, Bundler<Imageset>.BundlerError.darkAssetDoesNotExist(key: "cat.imageset", source: []))
+        }
+        
+        XCTContext.runActivity(named: "Anyのアセットがない色がある") { _ in
+            let colorSets: [Colorset] = assets.contents.compactMap {
+                if case .colorset(let value) = $0 {
+                    return value
+                } else {
+                    return nil
+                }
+            }
+            
+            let colorBundler = Bundler(source: colorSets)
+            let colorBundleResults = colorBundler.bundled()
+            
+            XCTAssertEqual(colorBundleResults.filter { (try? $0.get()) != nil }.count, 0)
+            XCTAssertNotEqual(colorBundleResults.filter { $0.error != nil }.count, 0)
+
+            let error = colorBundleResults.first { $0.error != nil }?.error as? Bundler<Colorset>.BundlerError
+            XCTAssertEqual(error, Bundler<Colorset>.BundlerError.anyAssetDoesNotExist(key: "red.colorset", source: []))
+        }
+
+
+    }
+    
     static var allTests = [
         ("testImagesetBundle", testImagesetBundle),
-        ("testColorBundle", testColorBundle)
+        ("testColorBundle", testColorBundle),
+        ("testAnyLuckAssets", testLuckAssets)
     ]
 }
 
@@ -236,4 +282,21 @@ extension ColorContents: Equatable {
         colors.sort()
     }
 
+}
+
+extension Bundler.BundlerError: Equatable {
+    
+    public static func == (lhs: Bundler.BundlerError, rhs: Bundler.BundlerError) -> Bool {
+        switch (lhs, rhs) {
+        case (.anyAssetDoesNotExist(key: let lhsValue, source: _), .anyAssetDoesNotExist(key: let rhsValue, source: _)):
+            return lhsValue == rhsValue
+            
+        case (.darkAssetDoesNotExist(key: let lhsValue, source: _), .darkAssetDoesNotExist(key: let rhsValue, source: _)):
+            return lhsValue == rhsValue
+            
+        default:
+            return false
+        }
+    }
+    
 }
