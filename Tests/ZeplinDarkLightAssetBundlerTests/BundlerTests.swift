@@ -27,12 +27,12 @@ final class BundlerTests: XCTestCase {
         }
         
         let bundler = Bundler(source: imagesets)
-        let result = try! bundler.bundled()
+        let result = bundler.bundled()
 
         XCTContext.runActivity(named: "Imageset shoud be bundled") { _ in
             XCTAssertEqual(result.count, 1)
             
-            let value = result.first!
+            let value = try! result.first!.get()
             XCTAssertEqual(value.name, "cat.imageset")
             XCTAssertEqual(value.contents.info.version, 1)
             XCTAssertEqual(value.contents.info.author, "xcode")
@@ -45,7 +45,7 @@ final class BundlerTests: XCTestCase {
         }
         
         XCTContext.runActivity(named: "Encoded text should be equal to expected") { _ in
-            var value = result.first!.contents
+            var value = try! result.first!.get().contents
             let testString = """
             {
               "images" : [
@@ -128,12 +128,12 @@ final class BundlerTests: XCTestCase {
         }
         
         let bundler = Bundler(source: colorsets)
-        let result = try! bundler.bundled()
+        let result = bundler.bundled()
 
         XCTContext.runActivity(named: "Colorset shoud be bundled") { _ in
             XCTAssertEqual(result.count, 1)
             
-            let value = result.first!
+            let value = try! result.first!.get()
             XCTAssertEqual(value.name, "red.colorset")
             XCTAssertEqual(value.contents.info.version, 1)
             XCTAssertEqual(value.contents.info.author, "xcode")
@@ -145,7 +145,7 @@ final class BundlerTests: XCTestCase {
         }
         
         XCTContext.runActivity(named: "Encoded text should be equal to expected") { _ in
-            var value = result.first!.contents
+            var value = try! result.first!.get().contents
             let testString = """
             {
               "info" : {
