@@ -11,6 +11,8 @@ Zeplin is great design spec tool, but It has not been implemented dark/light ass
 ## Usage
 `ZeplinDarkLightAssetBundler --input [inputXCAssetsURL] --output [expectedOutputXCAssetsURL]`
 
+If you don't pass input path, `{cwd}/Assets.xcassets` is used to input
+If you don't pass output path, input path is used as output path.
+
 ## Example
 `ZeplinDarkLightAssetBundler --i path/to/your/assets.xcassets --output path/to/your/newAssets.xcassets`
-Z
