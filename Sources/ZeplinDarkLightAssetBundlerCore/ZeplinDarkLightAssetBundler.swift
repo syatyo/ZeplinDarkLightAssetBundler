@@ -15,7 +15,12 @@ public struct ZeplinDarkLightAssetBundler {
     public func execute() throws {
         let assets = try XCAssets(url: sourceXCAssetURL)
         let bundled = assets.bundled()
-        bundled.write(to: targetXCAssetURL)
+        
+        // Write successed values
+        bundled.success.write(to: targetXCAssetURL)
+        
+        // Print errors
+        bundled.errors.forEach { print($0.localizedDescription) }
     }
     
     public init(sourceXCAssetURL: URL, targetXCAssetURL: URL) {
