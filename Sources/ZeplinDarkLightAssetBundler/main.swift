@@ -6,16 +6,10 @@
 //
 
 import Foundation
-import SPMUtility
 import ZeplinDarkLightAssetBundlerCore
 
 // arguments[0] is command name
 let arguments = Array(CommandLine.arguments.dropFirst())
-
-let parser = ArgumentParser(usage: "-i [input] -o [output]", overview: "Bundle colored assets from input to output")
-
-let inputKeyword = parser.add(option: "--input", shortName: "-i", kind: String.self)
-let outputKeyword = parser.add(option: "--output", shortName: "-o", kind: String.self)
 
 func exitProcessAsFailure() -> Never {
     exit(1)
@@ -26,24 +20,14 @@ func exitProcessAsSuccess() -> Never {
 }
 
 do {
-    let result = try parser.parse(arguments)
-    
-    guard let inputKeyword = result.get(inputKeyword) else {
-        print("Can not get input path from :\(result.description)")
-        exitProcessAsFailure()
-    }
-    
-    guard let outputKeyword = result.get(outputKeyword) else {
-        print("Can not get output path from :\(result.description)")
-        exitProcessAsFailure()
-    }
-    
-    let inputURL = URL(fileURLWithPath: inputKeyword)
-    let outputURL = URL(fileURLWithPath: outputKeyword)
-    
-    let bundler = ZeplinDarkLightAssetBundler(sourceXCAssetURL: inputURL, targetXCAssetURL: outputURL)
+    let parser = CommandLineParser(arguments: arguments)
+    let parsed = try parser.parsed()
+    let bundler = ZeplinDarkLightAssetBundler(sourceXCAssetURL: parsed.inputURL,
+                                              targetXCAssetURL: parsed.outputURL)
     try bundler.execute()
+    exitProcessAsSuccess()
     
 } catch {
     print(error)
+    exitProcessAsFailure()
 }
