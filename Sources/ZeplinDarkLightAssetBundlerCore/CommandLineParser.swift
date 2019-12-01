@@ -41,10 +41,12 @@ public struct CommandLineParser {
             }
             
             let cwdPath = FileManager.default.currentDirectoryPath
-            let defaultAssetsName = "Assets.xcassets"
-            let defaultAssetsURL = URL(fileURLWithPath: cwdPath + "/" + defaultAssetsName)
+            var cwdURL = URL(fileURLWithPath: cwdPath)
+            cwdURL.appendPathComponent(cwdURL.lastPathComponent)
             
-            return defaultAssetsURL.relativePath
+            let defaultAssets = "Assets.xcassets"
+            cwdURL.appendPathComponent(defaultAssets)
+            return cwdURL.relativePath
         }()
         
         let outputPath: String = {
