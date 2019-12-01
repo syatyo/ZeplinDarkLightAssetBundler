@@ -41,7 +41,7 @@ final class CommandLineParserTests: XCTestCase {
     }
     
     func testParseOmitInput() {
-        let expectedInput = URL(fileURLWithPath: FileManager.default.currentDirectoryPath + "/Assets.xcassets")
+        let expectedInput = URL(fileURLWithPath: "/private/tmp/tmp/Assets.xcassets")
         let testOutputURL = TestUtils.testMainDirectoryURL.appendingPathComponent("TargetAssets.xcassets")
                 
         let commandLineParser = CommandLineParser(arguments:
@@ -73,7 +73,7 @@ final class CommandLineParserTests: XCTestCase {
     func testParseWithNoOptions() {
         let commandLineParser = CommandLineParser(arguments: [])
         let parsed = try! commandLineParser.parsed()
-        let expectedURL = URL(fileURLWithPath: FileManager.default.currentDirectoryPath + "/Assets.xcassets")
+        let expectedURL = URL(fileURLWithPath: "/private/tmp/tmp/Assets.xcassets")
         
         XCTAssertEqual(parsed.inputURL, expectedURL)
         XCTAssertEqual(parsed.outputURL, expectedURL)
