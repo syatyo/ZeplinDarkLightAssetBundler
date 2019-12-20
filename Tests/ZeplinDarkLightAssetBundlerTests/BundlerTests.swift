@@ -195,7 +195,7 @@ final class BundlerTests: XCTestCase {
     }
     
     func testLuckAssets() {
-        let url = TestUtils.testMainDirectoryURL.appendingPathComponent("TestLuckAssets.xcassets")
+        let url = TestUtils.testResourcesDirectoryURL.appendingPathComponent("TestLuckAssets.xcassets")
         let assets = try! XCAssets(url: url)
         
         XCTContext.runActivity(named: "Darkのアセットがない画像がある") { _ in

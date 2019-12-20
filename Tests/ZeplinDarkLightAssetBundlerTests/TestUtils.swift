@@ -22,9 +22,13 @@ struct TestUtils {
         return thisDirectory
     }
     
-    /// The test asset
+    /// The test resources directory url.
+    static var testResourcesDirectoryURL: URL {
+        return testRootDirectoryURL.appendingPathComponent("Resources")
+    }
+    
     static var testAssetDirectoryURL: URL {
-        testMainDirectoryURL.appendingPathComponent("TestAssets.xcassets")
+        return testResourcesDirectoryURL.appendingPathComponent("TestAssets.xcassets")
     }
 
 }
