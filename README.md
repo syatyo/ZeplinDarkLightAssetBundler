@@ -3,6 +3,14 @@
 Zeplin is great design spec tool, but It has not been implemented dark/light assets bundle function. This tool helps bundling them.
 
 ## Installation
+### Mint
+If you have not installed mint, execute
+`brew install mint`
+
+then,
+`mint install syatyo/ZeplinDarkLightAssetBundler`
+
+### Manual
 1. Checkout the code
 2. Run `swift build -c release`
 3. run `cd .build/release`
