@@ -7,20 +7,48 @@
 
 import Foundation
 
+// The facade of this tool.
 public struct ZeplinDarkLightAssetBundler {
     
-    let sourceXCAssetURL: URL
-    let targetXCAssetURL: URL
+    /// The source xcassets url
+    var sourceXCAssetURL: URL
+    
+    /// The source xcassets that is pure
+    var sourceXCAssets: XCAssets!
+    
+    /// The target xcassets url
+    var targetXCAssetURL: URL
+    
+    /// The target xcassets that has already processed
+    var targetXCAssets: XCAssets!
 
-    public func execute() throws {
-        let assets = try XCAssets(url: sourceXCAssetURL)
-        let bundled = assets.bundled()
+    /// Execute processing steps
+    public mutating func execute() throws {
+        try self.parse()
+        try self.validate()
+        try self.bundle()
+        try self.write()
+    }
+    
+    private mutating func parse() throws {
+        self.sourceXCAssets = try XCAssets(url: sourceXCAssetURL)
+    }
+    
+    private mutating func validate() throws {
         
+    }
+        
+    private mutating func bundle() throws {
+//        self.targetXCAssets = sourceXCAssets.bundled()
+    }
+    
+    private mutating func write() throws {
         // Write successed values
-        bundled.success.write(to: targetXCAssetURL)
-        
-        // Print errors
-        bundled.errors.forEach { print($0.localizedDescription) }
+//        bundled.success.write(to: targetXCAssetURL)
+//
+//        // Print errors
+//        bundled.errors.forEach { print($0.localizedDescription) }
+
     }
     
     public init(sourceXCAssetURL: URL, targetXCAssetURL: URL) {

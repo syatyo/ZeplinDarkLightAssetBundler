@@ -22,7 +22,7 @@ func exitProcessAsSuccess() -> Never {
 do {
     let parser = CommandLineParser(arguments: arguments)
     let parsed = try parser.parsed()
-    let bundler = ZeplinDarkLightAssetBundler(sourceXCAssetURL: parsed.inputURL,
+    var bundler = ZeplinDarkLightAssetBundler(sourceXCAssetURL: parsed.inputURL,
                                               targetXCAssetURL: parsed.outputURL)
     try bundler.execute()
     exitProcessAsSuccess()
