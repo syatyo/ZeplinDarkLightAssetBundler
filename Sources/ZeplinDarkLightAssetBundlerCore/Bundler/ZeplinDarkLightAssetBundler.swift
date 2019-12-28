@@ -31,6 +31,8 @@ public struct ZeplinDarkLightAssetBundler {
     }
     
     private mutating func parse() throws {
+        // ParseのPhaseでは、dark/lightの名前見て振り分けはしない。
+        // 次の適切なフェーズ(preprocess?)で、ファイル名見て適切な状態に加工して出力するようにする。
         self.sourceXCAssets = try XCAssets(url: sourceXCAssetURL)
     }
     
