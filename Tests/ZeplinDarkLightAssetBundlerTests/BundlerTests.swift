@@ -23,7 +23,7 @@ final class BundlerTests: XCTestCase {
         
         XCTContext.runActivity(named: "Should not bundled") { _ in
             XCTAssertEqual(imagesets.count, 2)
-            XCTAssertEqual(assets.contents.count, 5)
+            XCTAssertEqual(assets.contents.count, 4)
         }
         
         let bundler = Bundler(source: imagesets)
@@ -124,7 +124,7 @@ final class BundlerTests: XCTestCase {
         
         XCTContext.runActivity(named: "Should not bundled") { _ in
             XCTAssertEqual(colorsets.count, 2)
-            XCTAssertEqual(assets.contents.count, 5)
+            XCTAssertEqual(assets.contents.count, 4)
         }
         
         let bundler = Bundler(source: colorsets)

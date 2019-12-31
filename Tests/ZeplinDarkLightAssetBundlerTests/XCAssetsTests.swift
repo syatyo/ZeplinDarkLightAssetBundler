@@ -14,7 +14,7 @@ final class XCAssetsTests: XCTestCase {
         let url = TestUtils.testAssetDirectoryURL
         let xcassets = try! XCAssets(url: url)
         XCTAssertEqual(xcassets.name, "TestAssets.xcassets")
-        XCTAssertEqual(xcassets.contents.count, 5)
+        XCTAssertEqual(xcassets.contents.count, 4)
         XCTAssertEqual(xcassets.contents.filter { $0 == .colorset(.empty()) }.count, 2)
         XCTAssertEqual(xcassets.contents.filter { $0 == .imageset(.empty()) }.count, 2)
     }
@@ -33,10 +33,7 @@ extension XCAssetsItem: Equatable {
             
         case (.imageset, .imageset):
             return true
-            
-        case (.rootContentsJSON, .rootContentsJSON):
-            return true
-            
+                        
         default:
             return false
         }

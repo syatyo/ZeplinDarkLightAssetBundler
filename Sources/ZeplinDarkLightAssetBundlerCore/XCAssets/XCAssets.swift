@@ -26,6 +26,9 @@ struct XCAssets: Directory, BundlerProtocol {
     /// The items of xcassets
     var contents: [XCAssetsItem]
     
+    /// The root contents in xcassets.
+    var rootContents: RootContents
+    
     init(url: URL) throws {
         self.url = url
         self.name = url.lastPathComponent
@@ -43,14 +46,14 @@ struct XCAssets: Directory, BundlerProtocol {
             .filter { $0.pathExtension == "imageset" }
             .compactMap { try XCAssetsItem.imageset(Imageset(url: $0)) }
         )
-        
-        if let contentsJsonURL: URL = contentURLs.first(where: { $0.lastPathComponent == "Contents.json" }) {
-            let data = try Data(contentsOf: contentsJsonURL)
-            let rootContents = try JSONDecoder().decode(RootContents.self, from: data)
-            contents.append(XCAssetsItem.rootContentsJSON(rootContents))
-        }
-        
+                
         self.contents = contents
+        
+        let contentsJsonURL: URL = contentURLs.first(where: { $0.lastPathComponent == "Contents.json" })!
+        let data = try Data(contentsOf: contentsJsonURL)
+        let rootContents = try JSONDecoder().decode(RootContents.self, from: data)
+        self.rootContents = rootContents
+
     }
     
     func bundled() -> BundleResult {
@@ -69,13 +72,7 @@ struct XCAssets: Directory, BundlerProtocol {
         
         let imageBundleErrors = imageAssets.compactMap { $0.error }
         
-        let bundledSuccessValues: [XCAssetsItem] = {
-            if let rootJSON = contents.rootContentsJSON {
-                return colorBundleSuccessValues + imageBundleSuccessValues + [XCAssetsItem.rootContentsJSON(rootJSON)]
-            } else {
-                return colorBundleSuccessValues + imageBundleSuccessValues
-            }
-        }()
+        let bundledSuccessValues: [XCAssetsItem] = colorBundleSuccessValues + imageBundleSuccessValues
         
         let bundledErrors: [Error] = colorBundleErrors + imageBundleErrors
         

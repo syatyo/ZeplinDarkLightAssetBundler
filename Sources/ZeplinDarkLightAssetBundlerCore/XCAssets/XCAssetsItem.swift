@@ -11,7 +11,6 @@ import Foundation
 enum XCAssetsItem {
     case colorset(Colorset)
     case imageset(Imageset)
-    case rootContentsJSON(RootContents)
 }
 
 extension Collection where Self.Element == XCAssetsItem {
@@ -35,16 +34,5 @@ extension Collection where Self.Element == XCAssetsItem {
             }
         }
     }
-    
-    var rootContentsJSON: RootContents? {
-        return compactMap {
-            if case .rootContentsJSON(let contents) = $0 {
-                return contents
-            } else {
-                return nil
-            }
-        }.first
-    }
-
     
 }

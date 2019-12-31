@@ -43,11 +43,10 @@ extension XCAssets: Writable {
                 
             case .imageset(let dir):
                 dir.write(to: url.appendingPathComponent(dir.name))
-                
-            case .rootContentsJSON(let file):
-                file.write(to: url.appendingPathComponent("Contents.json"))
             }
         }
+        
+        rootContents.write(to: url.appendingPathComponent("Contents.json"))
     }
     
 }
